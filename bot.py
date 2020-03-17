@@ -1,12 +1,10 @@
 import os
-
 from discord.ext import commands
-from dotenv import load_dotenv
 
-load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
+
 
 @bot.command()
 async def xkcd(ctx, num):
@@ -17,10 +15,10 @@ async def xkcd(ctx, num):
     except ValueError:
         await ctx.send("Strings are not yet supported.")
 
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
-
     print(f'{bot.user.name} is connected to the following guild(s): \n')
 
     for guild in bot.guilds:
