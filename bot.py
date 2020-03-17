@@ -1,5 +1,7 @@
 import os
 from discord.ext import commands
+from search import search
+from latest import latest
 
 token = os.getenv('DISCORD_TOKEN')
 
@@ -7,13 +9,18 @@ bot = commands.Bot(command_prefix='!')
 
 
 @bot.command()
-async def xkcd(ctx, num):
-    try: 
-        num = int(num)
-        url = "https://xkcd.com/" + str(num)
+async def xkcd(ctx, keyword="latest"):
+    try:
+        if keyword.isnumeric():
+            url = "https://xkcd.com/" + keyword
+        elif keyword == "latest":
+            url = latest()
+        else:
+            await ctx.send("Let me take a guess...")
+            url = "https://" + search(keyword)
         await ctx.send(url)
-    except ValueError:
-        await ctx.send("Strings are not yet supported.")
+    except TypeError:
+        await ctx.send("Couldn't find anything. Try again!")
 
 
 @bot.event

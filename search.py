@@ -7,4 +7,6 @@ def search(keyword):
     data = json.loads(response)
     if not data['success']:
         return data['message']
+    if not data['results']:
+        return None
     return data['results'][0]['url']
