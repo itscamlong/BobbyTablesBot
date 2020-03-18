@@ -1,7 +1,7 @@
 import os
 from discord.ext import commands
-from search import search
-from latest import latest
+from discord import Game, Status
+from logic import find
 
 token = os.getenv('DISCORD_TOKEN')
 
@@ -11,20 +11,17 @@ bot = commands.Bot(command_prefix='!')
 @bot.command()
 async def xkcd(ctx, keyword="latest"):
     try:
-        if keyword.isnumeric():
-            url = "https://xkcd.com/" + keyword
-        elif keyword == "latest":
-            url = latest()
-        else:
-            await ctx.send("Let me take a guess...")
-            url = "https://" + search(keyword)
-        await ctx.send(url)
+        await ctx.trigger_typing()
+        result = find(keyword)
+        await ctx.send(result)
     except TypeError:
         await ctx.send("Couldn't find anything. Try again!")
 
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(status=Status.online, activity=Game(name="Quarantine"))
+
     print(f'{bot.user.name} has connected to Discord!')
     print(f'{bot.user.name} is connected to the following guild(s): \n')
 

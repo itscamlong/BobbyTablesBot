@@ -1,7 +1,8 @@
 import unittest
+from logic import find
 
 
-class MyTestCase(unittest.TestCase):
+class XKCDTests(unittest.TestCase):
     def test_something(self):
         self.assertEqual(True, False)
 
