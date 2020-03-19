@@ -6,10 +6,14 @@ import requests
 def find(keyword):
     if keyword.isnumeric():
         url = "https://xkcd.com/" + keyword
+        if not check_exists(url):
+            raise TypeError
     elif keyword == "latest":
         url = latest()
+    elif keyword == "random" or "rand":
+        url = random()
     else:
-        url = "https://" + search(keyword)
+        url = "My best guess: https://" + search(keyword)
     return url
 
 
@@ -30,3 +34,15 @@ def latest():
     url_loc = permanent.find("https")
     url = permanent[url_loc:]
     return url
+
+
+def check_exists(url):
+    response = requests.get(url)
+    if response.status_code is not 200:
+        return False
+    return True
+
+
+def random():
+    response = requests.get("https://c.xkcd.com/random/comic/")
+    return response.url
