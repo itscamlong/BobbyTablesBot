@@ -10,7 +10,7 @@ def find(keyword):
             raise TypeError
     elif keyword == "latest":
         url = latest()
-    elif keyword == "random" or "rand":
+    elif keyword == "random" or keyword == "rand":
         url = random()
     else:
         url = "My best guess: https://" + search(keyword)

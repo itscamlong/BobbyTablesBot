@@ -18,6 +18,16 @@ async def xkcd(ctx, keyword="latest"):
         await ctx.send("Couldn't find anything. Try again!")
 
 
+@bot.command()
+async def explainxkcd(ctx, keyword="latest"):
+    try:
+        await ctx.trigger_typing()
+        result = find(keyword).replace("xkcd", "explainxkcd")
+        await ctx.send(result)
+    except TypeError:
+        await ctx.send("Couldn't find anything. Try again!")
+
+
 @bot.event
 async def on_ready():
     await bot.change_presence(status=Status.online, activity=Game(name="Quarantine"))
